@@ -81,18 +81,12 @@
         $scope.resetearBola();
 
         // Jugadores
-        $scope.jugador = [
-            {
-                nombre: "",
-                puntaje: 0
-            },
-            {
-                nombre: "",
-                puntaje: 0
-            }
-        ];
-        $scope.jugador[0].nombre = window.prompt("Ingresa el nombre del jugador 1:");
-        $scope.jugador[1].nombre = window.prompt("Ingresa el nombre del jugador 2:");
+        $scope.jugador1 = window.prompt("Ingresa el nombre del jugador 1:");
+        $scope.jugador2 = window.prompt("Ingresa el nombre del jugador 2:");
+
+        // Puntajes
+        $scope.puntaje1 = 0;
+        $scope.puntaje2 = 0;
 
 
 
@@ -135,11 +129,13 @@
             // Resetear bola si choca con los bordes izquierdo/derecho
             // Y dar puntaje al jugador que anotó el punto
             if ($scope.posicionBola.x < 0) {
-                $scope.jugador[1].puntaje++;
+                // Bola salió por la izquierda - jugador 2 anotó
+                $scope.puntaje2++;
                 $scope.resetearBola();
             }
             if ($scope.posicionBola.x > LIMITE_DERECHO_BOLA) {
-                $scope.jugador[0].puntaje++;
+                // Bola salió por la derecha - jugador 1 anotó
+                $scope.puntaje1++;
                 $scope.resetearBola();
             }
 
@@ -198,6 +194,7 @@
         /*
          * El objeto scope permite obtener los atributos "lado" y "posición" del elemento DOM <pad>
          * y provee al template con dichos elementos dentro del $scope del controlador padre
+         * 
          */
         return {
             scope: {
