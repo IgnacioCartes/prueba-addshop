@@ -2,11 +2,13 @@
 
     /*
      * Constantes
+     * 
+     * Estas constantes no influencian el tamaño en sí de los elementos, sólo son usadas como referencia para los cálculos de posición y detección de colisión
      */
     const ANCHO = 600,
         ALTO = 400;
 
-    const ANCHO_PAD = 20,
+    const ANCHO_PAD = 15,
         ALTO_PAD = 80;
 
     const TAMANO_BOLA = 20;
@@ -14,6 +16,8 @@
     const LIMITE_INFERIOR_PAD = ALTO - ALTO_PAD,
         LIMITE_INFERIOR_BOLA = ALTO - TAMANO_BOLA,
         LIMITE_DERECHO_BOLA = ANCHO - TAMANO_BOLA;
+
+    /* Las constantes de velocidad SI pueden ser cambiadas sin problemas */
 
     const VELOCIDAD_PAD = 4,
         VELOCIDAD_BOLA = 5;
@@ -38,14 +42,14 @@
 
     app.controller('PongController', ['$scope', function ($scope) {
 
-        // Variables privadas - fuera del scope
+        // Objeto privado - fuera del scope
         // Objeto que contiene las teclas y su estatus (true: presionada, false o undefined: no presionada)
         var keys = {};
 
         // Inicializar variables del scope
         // Altura de los pads
-        $scope.alturaPad1 = 160;
-        $scope.alturaPad2 = 160;
+        $scope.alturaPad1 = (ALTO - ALTO_PAD) / 2;
+        $scope.alturaPad2 = (ALTO - ALTO_PAD) / 2;
 
         // Posicion vertical de los pads
         $scope.izquierda = 10;
@@ -80,9 +84,9 @@
         // Inicializar bola
         $scope.resetearBola();
 
-        // Jugadores
-        $scope.jugador1 = window.prompt("Ingresa el nombre del jugador 1:");
-        $scope.jugador2 = window.prompt("Ingresa el nombre del jugador 2:");
+        // Jugadores (el nombre se preguntará después)
+        $scope.jugador1 = "";
+        $scope.jugador2 = "";
 
         // Puntajes
         $scope.puntaje1 = 0;
@@ -156,8 +160,6 @@
                     $scope.velocidadBola.y += ($scope.velocidadPad2 / 2);
                 }
 
-
-
             // Aplicar los cambios para que se reflejen en las directivas
             $scope.$apply();
 
@@ -165,7 +167,11 @@
             animationFrameId = window.requestAnimationFrame($scope.animationFrame);
         };
 
-        // Escuchar los eventos keydown y keyup para tener un registro de que teclas estan siendo o no presionadas
+
+
+        /* Crear event listeners
+         * Escuchar los eventos keydown y keyup para tener un registro de que teclas estan siendo o no presionadas
+         */
         window.document.addEventListener('keydown', (evt) => {
             // Registrar keydown (true = tecla presionada)
             keys[evt.key] = true;
@@ -176,11 +182,20 @@
             keys[evt.key] = false;
         });
 
-        // Sacar class invisible al score para mostrarlo una vez que se hayan ingresado los nobmres
-        window.document.getElementById("scoreboard").classList.remove("invisible");
+        // Definir funcion a llamar cuando todo esté listo
+        angular.element(document).ready(() => {
+            // Preguntar nombres
+            $scope.jugador1 = window.prompt("Ingresa el nombre del jugador 1:");
+            $scope.jugador2 = window.prompt("Ingresa el nombre del jugador 2:");
 
-        // Llamar al primer animation frame
-        animationFrameId = window.requestAnimationFrame($scope.animationFrame);
+            // Sacar class invisible al score para mostrarlo una vez que se hayan ingresado los nombres
+            window.document.getElementById("scoreboard").classList.remove("invisible");
+
+            // Llamar al primer animation frame
+            animationFrameId = window.requestAnimationFrame($scope.animationFrame);
+        });
+
+
 
     }]);
 
@@ -201,6 +216,7 @@
                 lado: '=',
                 posicion: '='
             },
+            restrict: 'E',
             template: '<div class="pad" ng-attr-style="left: {{ lado }}px; top: {{ posicion }}px"></div>'
         };
     });
@@ -216,13 +232,10 @@
             scope: {
                 posicion: '='
             },
+            restrict: 'E',
             template: '<div class="ball" ng-attr-style="top: {{ posicion.y }}px; left: {{ posicion.x }}px;"></div>'
         };
     });
-
-
-
-
 
 
 
