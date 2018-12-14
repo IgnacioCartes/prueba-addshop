@@ -12,24 +12,33 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
+<!-- Angular App Inicio -->
+
 <body ng-app="PongApp">
 
+    <!-- Angular Controller Inicio -->
     <div ng-controller="PongController">
+
+        <!-- Nombre de jugadores y puntuación -->
         <div class="clearfix invisible" id="scoreboard">
             <span class="float-left">{{ jugador1 }} - {{ puntaje1 }}</span>
             <span class="float-right">{{ puntaje2 }} - {{ jugador2 }}</span>
         </div>
+
+        <!-- Área de juego -->
         <div class="pong-board">
             <div class="separador"></div>
             <pad lado="izquierda" posicion="alturaPad1"></pad>
             <pad lado="derecha" posicion="alturaPad2"></pad>
             <ball posicion="posicionBola"></ball>
-
         </div>
+
     </div>
+    <!-- Angular Controller Fin -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
     <script src="js/app.js"></script>
 </body>
+<!-- Angular App Fin -->
 
 </html>

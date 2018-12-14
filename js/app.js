@@ -1,9 +1,14 @@
 (function (window, angular, undefined) {
+    'use strict';
+
+
 
     /*
      * Constantes
      * 
      * Estas constantes no influencian el tamaño en sí de los elementos, sólo son usadas como referencia para los cálculos de posición y detección de colisión
+     * 
+     * Posible TO-DO: Redefinir tamaño de elementos CSS según estas constantes
      */
     const ANCHO = 600,
         ALTO = 400;
@@ -37,9 +42,8 @@
 
 
     /*
-     *  Crear controlador 
+     *  Crear controlador angular
      */
-
     app.controller('PongController', ['$scope', function ($scope) {
 
         // Objeto privado - fuera del scope
@@ -52,37 +56,35 @@
         $scope.alturaPad2 = (ALTO - ALTO_PAD) / 2;
 
         // Posicion vertical de los pads
+        // Asegurarse que ambos queden a la misma distancia de la pared detrás de ellos
         $scope.izquierda = 10;
         $scope.derecha = ANCHO - ANCHO_PAD - 10;
 
-        // Velocidad de pads
+        // Velocidad de pads (inicializada a 0)
         $scope.velocidadPad1 = 0;
         $scope.velocidadPad2 = 0;
 
-        // Definir propiedades de bola
+        // Definir propiedades de bola (objetos de posición y velocidad)
         $scope.posicionBola = {};
         $scope.velocidadBola = {};
 
         /**
-         * Inicializa la bola al centro de la arena, y le da una dirección al azar
+         * Inicializa la bola al centro de la cancha, y le da una dirección al azar
          * Esta función será rellamada cada vez que se anote un punto pare reinicializar la bola
          */
         $scope.resetearBola = function () {
-            // Coordenadas de la bola
+            // Coordenadas de la bola - centro de la cancha
             $scope.posicionBola = {
                 x: ANCHO / 2,
                 y: ALTO / 2
             };
 
-            // Velocidad de la bola - dirección aleatoria
+            // Velocidad de la bola - dirección aleatoria (uno de los 4 diagonales)
             $scope.velocidadBola = {
                 x: (Math.random() > 0.5) ? VELOCIDAD_BOLA : -VELOCIDAD_BOLA,
                 y: (Math.random() > 0.5) ? VELOCIDAD_BOLA : -VELOCIDAD_BOLA
             };
         };
-
-        // Inicializar bola
-        $scope.resetearBola();
 
         // Jugadores (el nombre se preguntará después)
         $scope.jugador1 = "";
@@ -113,6 +115,7 @@
             $scope.alturaPad2 += $scope.velocidadPad2;
 
             // Reducir velocidad por fricción
+            // La velocidad se va a reducir en 1 hasta volver a 0
             if ($scope.velocidadPad1 !== 0) $scope.velocidadPad1 -= Math.sign($scope.velocidadPad1);
             if ($scope.velocidadPad2 !== 0) $scope.velocidadPad2 -= Math.sign($scope.velocidadPad2);
 
@@ -131,7 +134,7 @@
             if ($scope.posicionBola.y >= LIMITE_INFERIOR_BOLA) $scope.velocidadBola.y = -$scope.velocidadBola.y;
 
             // Resetear bola si choca con los bordes izquierdo/derecho
-            // Y dar puntaje al jugador que anotó el punto
+            // E incrementar puntaje del jugador que anotó el punto
             if ($scope.posicionBola.x < 0) {
                 // Bola salió por la izquierda - jugador 2 anotó
                 $scope.puntaje2++;
@@ -145,7 +148,7 @@
 
             // Detectar colisión de bola con pads
             // Pad izquierdo - rebota a la derecha (vel. positiva)
-            if ($scope.posicionBola.x <= ($scope.izquierda + ANCHO_PAD))
+            if (($scope.posicionBola.x <= ($scope.izquierda + ANCHO_PAD)))
                 if (($scope.posicionBola.y >= $scope.alturaPad1) && ($scope.posicionBola.y <= ($scope.alturaPad1 + ALTO_PAD))) {
                     $scope.velocidadBola.x = VELOCIDAD_BOLA;
                     // imprimir parte de la velocidad vertical del pad a la bola
@@ -153,7 +156,7 @@
                 }
 
             // Pad derecho - rebota a la izquierda (vel. negativa)
-            if (($scope.posicionBola.x + ANCHO_PAD) >= $scope.derecha)
+            if ((($scope.posicionBola.x + ANCHO_PAD) >= $scope.derecha))
                 if (($scope.posicionBola.y >= $scope.alturaPad2) && ($scope.posicionBola.y <= ($scope.alturaPad2 + ALTO_PAD))) {
                     $scope.velocidadBola.x = -VELOCIDAD_BOLA;
                     // imprimir parte de la velocidad vertical del pad a la bola
@@ -191,6 +194,9 @@
             // Sacar class invisible al score para mostrarlo una vez que se hayan ingresado los nombres
             window.document.getElementById("scoreboard").classList.remove("invisible");
 
+            // Inicializar bola
+            $scope.resetearBola();
+
             // Llamar al primer animation frame
             animationFrameId = window.requestAnimationFrame($scope.animationFrame);
         });
@@ -210,6 +216,7 @@
          * El objeto scope permite obtener los atributos "lado" y "posición" del elemento DOM <pad>
          * y provee al template con dichos elementos dentro del $scope del controlador padre
          * 
+         * El template define el elemento HTML, que se estiliza por medio de CSS
          */
         return {
             scope: {
