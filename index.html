@@ -9,7 +9,6 @@
     <meta name="description" content="Pong con AngularJS">
     <meta name="author" content="Ignacio Cartes">
 
-    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -17,13 +16,15 @@
 
     <div ng-controller="PongController">
         <div class="clearfix invisible" id="scoreboard">
-            <span class="float-left">{{ nombre1 }} - {{ puntaje1 }}</span>
-            <span class="float-right">{{ nombre2 }} - {{ puntaje2 }}</span>
+            <span class="float-left">{{ jugador[0].nombre }} - {{ jugador[0].puntaje }}</span>
+            <span class="float-right">{{ jugador[1].puntaje }} - {{ jugador[1].nombre }}</span>
         </div>
         <div class="pong-board">
+            <div class="separador"></div>
             <pad lado="izquierda" posicion="alturaPad1"></pad>
             <pad lado="derecha" posicion="alturaPad2"></pad>
             <ball posicion="posicionBola"></ball>
+            
         </div>
     </div>
 
