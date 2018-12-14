@@ -187,15 +187,15 @@
 
         // Definir funcion a llamar cuando todo esté listo
         angular.element(document).ready(() => {
+            // Inicializar bola
+            $scope.resetearBola();
+
             // Preguntar nombres
             $scope.jugador1 = window.prompt("Ingresa el nombre del jugador 1:");
             $scope.jugador2 = window.prompt("Ingresa el nombre del jugador 2:");
 
             // Sacar class invisible al score para mostrarlo una vez que se hayan ingresado los nombres
             window.document.getElementById("scoreboard").classList.remove("invisible");
-
-            // Inicializar bola
-            $scope.resetearBola();
 
             // Llamar al primer animation frame
             animationFrameId = window.requestAnimationFrame($scope.animationFrame);
