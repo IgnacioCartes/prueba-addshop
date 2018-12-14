@@ -25,6 +25,8 @@
 
 #scoreboard {
     width: 600px;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    margin-bottom: 0.5em;
 }
 
 /* Tablero de pong */
@@ -32,10 +34,11 @@
 .pong-board {
     width: 600px;
     height: 400px;
-    background-color: #344556;
     position: absolute;
     margin: 0;
     padding: 0;
+    background: rgb(68, 184, 108);
+    background: linear-gradient(65deg, rgba(68, 184, 108, 1) 0%, rgba(124, 250, 111, 1) 100%);
 }
 
 /* Pads */
@@ -44,8 +47,11 @@
     display: inline-block;
     width: 20px;
     height: 80px;
-    background-color: #ccddee;
     position: absolute;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(54deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
 }
 
 /* Bola */
@@ -54,7 +60,20 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-color: #99ccdd;
+    background-color: #EDFB47;
     border-radius: 9999px;
     position: absolute;
+    box-sizing: border-box;
+    border: 1px solid #000;
+}
+
+/* Separador */
+
+.separador {
+    position: absolute;
+    background-color: #eeeff4;
+    top: 0px;
+    bottom: 0px;
+    left: 296px;
+    width: 8px;
 }
