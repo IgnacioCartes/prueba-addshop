@@ -1,0 +1,60 @@
+/* * Estilos de CSS * */
+
+/* Floats y clearfix */
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clearfix {
+    clear: both;
+    overflow: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+
+
+/* Puntajes */
+
+#scoreboard {
+    width: 600px;
+}
+
+/* Tablero de pong */
+
+.pong-board {
+    width: 600px;
+    height: 400px;
+    background-color: #344556;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
+
+/* Pads */
+
+.pad {
+    display: inline-block;
+    width: 20px;
+    height: 80px;
+    background-color: #ccddee;
+    position: absolute;
+}
+
+/* Bola */
+
+.ball {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #99ccdd;
+    border-radius: 9999px;
+    position: absolute;
+}
